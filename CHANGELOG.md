@@ -12,6 +12,9 @@
   [Ruenzuo](https://github.com/Ruenzuo)
   [#505](https://github.com/CocoaPods/Xcodeproj/issues/505)
 
+* [XCBuildConfiguration] Support environment variables in #resolve_build_setting  
+  [Ruenzuo](https://github.com/Ruenzuo)
+  [#510](https://github.com/CocoaPods/Xcodeproj/issues/510)
 
 ## 1.5.2 (2017-09-24)
 

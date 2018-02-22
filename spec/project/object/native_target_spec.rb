@@ -72,6 +72,13 @@ module ProjectSpecs
           @target.resolved_build_setting('OTHER_LDFLAGS', true).should == { 'Release' => expected_value, 'Debug' => expected_value }
         end
 
+        it 'returns the resolved build setting array value for a given key considering inheritance between project and target settings when the target setting is a string' do
+          @project.build_configuration_list.set_setting('OTHER_LDFLAGS', %w(-framework Foundation))
+          @target.build_configuration_list.set_setting('OTHER_LDFLAGS', '${inherited} -framework CoreData')
+          expected_value = %w(-framework Foundation -framework CoreData)
+          @target.resolved_build_setting('OTHER_LDFLAGS', true).should == { 'Release' => expected_value, 'Debug' => expected_value }
+        end
+
         it 'returns the resolved build setting string value for a given key considering inherited between project, target and associated base configuration references' do
           project_xcconfig = @project.new_file(fixture_path('project.xcconfig'))
           @project.build_configuration_list.build_configurations.each { |build_config| build_config.base_configuration_reference = project_xcconfig }
@@ -198,6 +205,13 @@ module ProjectSpecs
           @project.build_configuration_list.set_setting('PROJECT_REFERENCE_TARGET', '$(TARGET_USER_DEFINED)')
           @target.build_configuration_list.set_setting('TARGET_USER_DEFINED', 'TARGET_USER_DEFINED_VALUE')
           @target.resolved_build_setting('PROJECT_REFERENCE_TARGET', true).should == { 'Release' => 'TARGET_USER_DEFINED_VALUE', 'Debug' => 'TARGET_USER_DEFINED_VALUE' }
+        end
+
+        it "returns the resolved build setting string value when a key is using variable substitution of it's own name" do
+          @target.build_configuration_list.set_setting('A_BUILD_SETTING_WITH_VALUE', '$(A_BUILD_SETTING_WITH_VALUE)')
+          target_xcconfig = @project.new_file(fixture_path('target.xcconfig'))
+          @target.build_configuration_list.build_configurations.each { |build_config| build_config.base_configuration_reference = target_xcconfig }
+          @target.resolved_build_setting('A_BUILD_SETTING_WITH_VALUE', true).should == { 'Release' => 'Some value', 'Debug' => 'Some value' }
         end
 
         it 'returns the resolved build setting considering environment variables' do

@@ -4,16 +4,79 @@
 
 ##### Enhancements
 
+* None.  
+
+##### Bug Fixes
+
+* Fix expanding build settings when the current build setting is a string but
+  the inherited value is an array.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [CocoaPods#7421](https://github.com/CocoaPods/CocoaPods/issues/7421)
+
+## 1.5.6 (2018-02-04)
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* Disable Objective-C weak references by default for new targets
+  whose deployment targets do not support them.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [#544](https://github.com/CocoaPods/Xcodeproj/issues/544)
+
+
+## 1.5.5 (2018-02-02)
+
+##### Enhancements
+
+* Atomically write `project.pbxproj` files, so that Xcode will never see them
+  in a half-written state.  
+  [Samuel Giddins](https://github.com/segiddins)
+
+* Update default build settings for Xcode 9.3.  
+  [Samuel Giddins](https://github.com/segiddins)
+
+##### Bug Fixes
+
+* Save `.xcscheme` files with double-quoted strings, consistent with Xcode.  
+  [Samuel Giddins](https://github.com/segiddins)
+
+* [XCBuildConfiguration] Support environment variables in #resolve_build_setting  
+  [Ruenzuo](https://github.com/Ruenzuo)
+  [#510](https://github.com/CocoaPods/Xcodeproj/issues/510)
+
+* Ensure `--no-ansi` disables output of escape sequences.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [#540](https://github.com/CocoaPods/Xcodeproj/issues/540)
+
+
+## 1.5.4 (2017-12-16)
+
+##### Enhancements
+
 * Made it possible to configure a scheme to launch a Today extension  
   [Eldorado234](https://github.com/Eldorado234)
   [#520](https://github.com/CocoaPods/CocoaPods/issues/520)
 
 ##### Bug Fixes
 
+* Fixing the method recreate_user_scheme for targets other than type PBXNativeTarget.  
+  [Yadir Hernandez](https://github.com/yadirhb)
+  [#531](https://github.com/CocoaPods/CocoaPods/issues/531)
+
 * Verify container portal when checking dependency target membership.  
   [izaakschroeder](https://github.com/izaakschroeder)
   [#513](https://github.com/CocoaPods/Xcodeproj/issues/513)
 
+* [XCBuildConfiguration] Fix infinite recursion in #resolve_build_setting  
+  [Ruenzuo](https://github.com/Ruenzuo)
+  [#511](https://github.com/CocoaPods/Xcodeproj/issues/511)
+
+* Add .inl as a recognized header file ending  
+  [bes](https://github.com/bes)
+  [#7283](https://github.com/CocoaPods/CocoaPods/issues/7283)
 
 ## 1.5.3 (2017-10-24)
 

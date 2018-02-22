@@ -1,3 +1,4 @@
+require 'atomos'
 require 'fileutils'
 require 'securerandom'
 
@@ -350,7 +351,9 @@ module Xcodeproj
       @dirty = false if save_path == path
       FileUtils.mkdir_p(save_path)
       file = File.join(save_path, 'project.pbxproj')
-      File.open(file, 'w') { |f| Nanaimo::Writer::PBXProjWriter.new(to_ascii_plist, :pretty => true, :output => f, :strict => false).write }
+      Atomos.atomic_write(file) do |f|
+        Nanaimo::Writer::PBXProjWriter.new(to_ascii_plist, :pretty => true, :output => f, :strict => false).write
+      end
     end
 
     # Marks the project as dirty, that is, modified from what is on disk.
@@ -809,7 +812,7 @@ module Xcodeproj
       targets.each do |target|
         scheme = XCScheme.new
         scheme.add_build_target(target)
-        scheme.add_test_target(target) if target.test_target_type?
+        scheme.add_test_target(target) if target.respond_to?(:test_target_type?) && target.test_target_type?
         yield scheme, target if block_given?
         scheme.save_as(path, target.name, false)
         xcschememanagement['SchemeUserState']["#{target.name}.xcscheme"] = {}
